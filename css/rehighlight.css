@@ -57,39 +57,45 @@ input[type=radio]:checked + label:before{
 }
 
 #highlight ul,
-#substitute ul{
+#substitution ul{
   list-style: none;
   padding: 0;
 }
 #highlight button,
-#substitute button{
+#substitution button{
   border: none;
   cursor: pointer;
   font-size: large;
+  background: none;
 }
 .highlight-var,
-.substitute-var {
+.substitution-var {
   margin: 0 0 0.5em 0;
 }
 .highlight-var span > label,
-.substitute-var span > label {
+.substitution-var span > label {
   display: none;
 }
 .highlight-var span > div,
-.substitute-var span > div {
+.substitution-var span > div {
   display: inline-block;
   margin-right: 0.7em;
 }
-.highlight-regex,
-.substitute-regex{
+.highlight-pattern,
+.substitution-pattern{
   width: 20em;
 }
 .highlight-fcolor,
 .highlight-bcolor{
   width: 8em;
 }
+.substitution-num:after {
+  content: " match.";
+  word-wrap: nowrap;
+}
 .highlight-num:after {
-  content: " match found.";
+  content: " match.";
+  word-wrap: nowrap;
 }
 
 #textarea {
@@ -117,7 +123,12 @@ input[type=radio]:checked + label:before{
   body {
     -webkit-print-color-adjust: exact;
   }
-  #controller, #textarea, button {
+  #fork-me-on-github, #textarea, #controller button {
     display: none;
+  }
+  #viewer {
+    font-size: small;
+    border: none;
+    overflow: hidden;
   }
 }

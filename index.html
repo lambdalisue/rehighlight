@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/evoluteur/colorpicker/master/css/evol.colorpicker.min.css">
 <link rel="stylesheet" href="css/rehighlight.css">
 
-<a href="https://github.com/lambdalisue/rehighlight"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+<a id="fork-me-on-github" href="https://github.com/lambdalisue/rehighlight"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
 
 <header>
   <h1>rehighlight</h1>
@@ -27,13 +27,43 @@
     </p>
     <p>
       <label>Text case</label>
-      <input type="radio" name="case" id="case-none" value="none" checked>
-      <label for="case-none" class="radio-label">Do not touch</label>
-      <input type="radio" name="case" id="case-upper" value="upper">
-      <label for="case-upper" class="radio-label">To upper</label>
-      <input type="radio" name="case" id="case-lower" value="lower">
-      <label for="case-lower" class="radio-label">To lower</label>
+      <input type="radio" name="text-case" id="text-case-none" value="none" checked>
+      <label for="text-case-none" class="radio-label">Do not touch</label>
+      <input type="radio" name="text-case" id="text-case-upper" value="upper">
+      <label for="text-case-upper" class="radio-label">To upper</label>
+      <input type="radio" name="text-case" id="text-case-lower" value="lower">
+      <label for="text-case-lower" class="radio-label">To lower</label>
     </p>
+  </div>
+  <div id="substitution">
+    <h2>Substitutions
+      <button class="fa fa-plus-circle substitution-add" title="Add new substitution"></button>
+    </h2>
+    <ul>
+      <li class="substitution-var">
+        <span>
+          <label for="substitution-pattern-0" id_format="substitution-pattern-%d">Regex pattern</label>
+          <input type="text"
+            title="Regex pattern in Javascript"
+            name="substitution-pattern-0" name_format="substitution-pattern-%d"
+            id="substitution-pattern-0" id_format="substitution-pattern-%d"
+            class="substitution-pattern" placeholder="Regex pattern">
+        </span>
+        <span>
+          <label for="substitution-repl-0" id_format="substitution-repl-%d">Replacement pattern</label>
+          <input type="text"
+            title="Replacement pattern in Javascript"
+            name="substitution-repl-0" name_format="substitution-repl-%d"
+            id="substitution-repl-0" id_format="substitution-repl-%d"
+            class="substitution-repl" placeholder="Replacement pattern">
+        </span>
+        <span class="substitution-num" title="the number of match"
+          name="substitution-num-0" name_format="substitution-num-%d"
+          id="substitution-num-0" id_format="substitution-num-%d"
+          ></span>
+        <button class="fa fa-minus-circle substitution-del" title="Delete this substitution" style="display: none"></button>
+      </li>
+    </ul>
   </div>
   <div id="highlight">
     <h2>Highlights
@@ -42,16 +72,18 @@
     <ul>
       <li class="highlight-var">
         <span>
-          <label for="highlight-regex-0" id_format="highlight-regex-%d">Regex pattern</label>
+          <label for="highlight-pattern-0" id_format="highlight-pattern-%d">Regex pattern</label>
           <input type="text"
             title="Regex pattern in Javascript"
-            id="highlight-regex-0" id_format="highlight-regex-%d"
-            class="highlight-regex" placeholder="Regex pattern">
+            name="highlight-pattern-0" name_format="highlight-pattern-%d"
+            id="highlight-pattern-0" id_format="highlight-pattern-%d"
+            class="highlight-pattern" placeholder="Regex pattern">
         </span>
         <span>
           <label for="highlight-fcolor-0" id_format="highlight-fcolor-%d">Foreground color</label>
           <input type="text"
             title="Foreground color in HTML color"
+            name="highlight-fcolor-0" name_format="highlight-fcolor-%d"
             id="highlight-fcolor-0" id_format="highlight-fcolor-%d"
             class="highlight-fcolor" placeholder="#ffffff">
         </span>
@@ -59,35 +91,15 @@
           <label for="highlight-bcolor-0" id_format="highlight-bcolor-%d">Background color</label>
           <input type="text"
             title="Background color in HTML color"
+            name="highlight-bcolor-0" name_format="highlight-bcolor-%d"
             id="highlight-bcolor-0" id_format="highlight-bcolor-%d"
-            class="highlight-bcolor" placeholder="#ff0000">
+            class="highlight-bcolor" placeholder="#c0504d">
         </span>
-        <span class="highlight-num" title="the number of match"></span>
+        <span class="highlight-num" title="the number of match"
+          name="highlight-num-0" name_format="highlight-num-%d"
+          id="highlight-num-0" id_format="highlight-num-%d"
+          ></span>
         <button class="fa fa-minus-circle highlight-del" title="Delete this highlight" style="display: none"></button>
-      </li>
-    </ul>
-  </div>
-  <div id="substitute">
-    <h2>Substitutes
-      <button class="fa fa-plus-circle substitute-add" title="Add new substitute"></button>
-    </h2>
-    <ul>
-      <li class="substitute-var">
-        <span>
-          <label for="substitute-regex-0" id_format="substitute-regex-%d">Regex pattern</label>
-          <input type="text"
-            title="Regex pattern in Javascript"
-            id="substitute-regex-0" id_format="substitute-regex-%d"
-            class="substitute-regex" placeholder="Regex pattern">
-        </span>
-        <span>
-          <label for="substitute-repl-0" id_format="substitute-repl-%d">Replacement pattern</label>
-          <input type="text"
-            title="Replacement pattern in Javascript"
-            id="substitute-repl-0" id_format="substitute-repl-%d"
-            class="substitute-repl" placeholder="Replacement pattern">
-        </span>
-        <button class="fa fa-minus-circle substitute-del" title="Delete this substitute" style="display: none"></button>
       </li>
     </ul>
   </div>
@@ -104,8 +116,9 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+<script src="https://cdn.rawgit.com/websanova/js-url/master/url.min.js"></script>
 <script src="https://cdn.rawgit.com/evoluteur/colorpicker/master/js/evol.colorpicker.min.js"></script>
-<script src="https://cdn.rawgit.com/sutara79/jquery.add-input-area/master/jquery.add-input-area.min.js"></script>
+<script src="js/jquery.add-input-area.js"></script>
 <script src="js/rehighlight.js"></script>
 
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
