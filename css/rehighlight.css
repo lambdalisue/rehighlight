@@ -1,0 +1,87 @@
+/* Typography */
+body {
+    font-family: 'Merriweather', serif;
+    font-size: small;
+    color: #333;
+    background-color: #eee;
+    width: 90%;
+    max-width: 900px;
+    margin: auto;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Lato", sans-serif;
+    font-weight: normal;
+}
+h1 + h2.subscription {
+    font-size: small;
+    margin-top: -1em;
+    color: #888;
+    letter-spacing: 0.1em;
+}
+
+label {
+  display: inline-block;
+  width: 6.5em;
+}
+label:after {
+  content: ":";
+  margin-right: 1em;
+}
+input[type=text] {
+  background: none;
+  border: 1px solid #aaa;                                
+  border-radius: 3px;                                    
+  padding: 3px;                                          
+}                                                        
+                                                         
+#text-width {                                            
+  text-align: right;                                     
+  width: 5em;
+}
+
+#highlight ul {
+  list-style: none;
+  padding: 0;
+}
+#highlight button {
+  border: none;
+  cursor: pointer;
+  font-size: large;
+}
+.highlight-var {
+  margin: 0 0 0.5em 0;
+}
+.highlight-var span > label {
+  display: none;
+}
+.highlight-var span > div {
+  display: inline-block;
+  margin-right: 0.7em;
+}
+.highlight-regex {
+  width: 10em;
+}
+
+#textarea {
+  resize: vertical;
+  width: 100%;
+  height: 30%;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  padding: 3px;
+}
+#viewer {
+  width: 100%;
+  min-height: 500px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  padding: 3px;
+  font-family: monospace;
+  font-size: large;
+}
+
+@media print {
+  #controller, #textarea, button {
+    display: none;
+  }
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset=utf-8 />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+<title>rehighlight</title>
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300|Merriweather">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/ui-lightness/jquery-ui.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/evoluteur/colorpicker/master/css/evol.colorpicker.min.css">
+<link rel="stylesheet" href="css/rehighlight.css">
+
+<header>
+  <h1>rehighlight</h1>
+  <h2 class="subscription">Regular expression highlight service</h2>
+</header>
+
+<div id="controller">
+  <div>
+    <h2>Properties</h2>
+    <span>
+      <label for="text-width">Text width</label>
+      <input type="text" id="text-width" placeholder="Width">
+      characters
+    </span>
+  </div>
+  <div id="highlight">
+    <h2>Highlights
+      <button class="fa fa-plus-circle highlight-add" title="Add new highlight"></button>
+    </h2>
+    <ul>
+      <li class="highlight-var">
+        <span>
+          <label for="highlight-regex-0" id_format="highlight-regex-%d">Regex pattern</label>
+          <input type="text"
+            title="Regex pattern in Javascript"
+            id="highlight-regex-0" id_format="highlight-regex-%d"
+            class="highlight-regex" placeholder="Regex pattern (e.g. [DARK])">
+        </span>
+        <span>
+          <label for="highlight-fcolor-0" id_format="highlight-fcolor-%d">Foreground color</label>
+          <input type="text"
+            title="Foreground color in HTML color"
+            id="highlight-fcolor-0" id_format="highlight-fcolor-%d"
+            class="highlight-fcolor" placeholder="Foreground (e.g. #ffffff)">
+        </span>
+        <span>
+          <label for="highlight-bcolor-0" id_format="highlight-bcolor-%d">Background color</label>
+          <input type="text"
+            title="Background color in HTML color"
+            id="highlight-bcolor-0" id_format="highlight-bcolor-%d"
+            class="highlight-bcolor" placeholder="Background (e.g. #ff0000)">
+        </span>
+        <button class="fa fa-minus-circle highlight-del" title="Delete this highlight" style="display: none"></button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div id="wrapper">
+  <textarea id="textarea" placeholder="Type your text here"></textarea>
+  <pre id="viewer"></pre>
+</div>
+
+<footer>
+  <p>&copy; 2015 hashnote.net, &Lambda;lisue
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+<script src="https://cdn.rawgit.com/evoluteur/colorpicker/master/js/evol.colorpicker.min.js"></script>
+<script src="https://cdn.rawgit.com/sutara79/jquery.add-input-area/master/jquery.add-input-area.min.js"></script>
+<script src="js/rehighlight.js"></script>
+
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-52ca35eb4a386ae9" async="async"></script>
+</html>
