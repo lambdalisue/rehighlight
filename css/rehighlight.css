@@ -19,47 +19,77 @@ h1 + h2.subscription {
     letter-spacing: 0.1em;
 }
 
-label {
-  display: inline-block;
-  width: 6.5em;
-}
 label:after {
   content: ":";
   margin-right: 1em;
 }
 input[type=text] {
   background: none;
-  border: 1px solid #aaa;                                
-  border-radius: 3px;                                    
-  padding: 3px;                                          
-}                                                        
-                                                         
-#text-width {                                            
-  text-align: right;                                     
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  padding: 3px;
+}
+input[type=radio] {
+  display: none;
+}
+input[type=radio] + label:after{
+  content: "";
+}
+input[type=radio] + label{
+  cursor: pointer;
+}
+input[type=radio] + label:before{
+  content: "\f10c";
+  margin-right: 0.5em;
+  display: inline-block;
+  font-family: FontAwesome;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+input[type=radio]:checked + label:before{
+  content: "\f192";
+}
+
+#text-width {
+  text-align: right;
   width: 5em;
 }
 
-#highlight ul {
+#highlight ul,
+#substitute ul{
   list-style: none;
   padding: 0;
 }
-#highlight button {
+#highlight button,
+#substitute button{
   border: none;
   cursor: pointer;
   font-size: large;
 }
-.highlight-var {
+.highlight-var,
+.substitute-var {
   margin: 0 0 0.5em 0;
 }
-.highlight-var span > label {
+.highlight-var span > label,
+.substitute-var span > label {
   display: none;
 }
-.highlight-var span > div {
+.highlight-var span > div,
+.substitute-var span > div {
   display: inline-block;
   margin-right: 0.7em;
 }
-.highlight-regex {
-  width: 10em;
+.highlight-regex,
+.substitute-regex{
+  width: 20em;
+}
+.highlight-fcolor,
+.highlight-bcolor{
+  width: 8em;
+}
+.highlight-num:after {
+  content: " match found.";
 }
 
 #textarea {
@@ -71,16 +101,22 @@ input[type=text] {
   padding: 3px;
 }
 #viewer {
+  background-color: #fff;
   width: 100%;
   min-height: 500px;
   border: 1px solid #aaa;
   border-radius: 3px;
   padding: 3px;
+  letter-spacing: 0.2em;
   font-family: monospace;
   font-size: large;
+  overflow: scroll;
 }
 
 @media print {
+  body {
+    -webkit-print-color-adjust: exact;
+  }
   #controller, #textarea, button {
     display: none;
   }

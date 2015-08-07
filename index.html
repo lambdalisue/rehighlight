@@ -16,13 +16,22 @@
 </header>
 
 <div id="controller">
-  <div>
+  <div id="properties">
     <h2>Properties</h2>
-    <span>
+    <p>
       <label for="text-width">Text width</label>
-      <input type="text" id="text-width" placeholder="Width">
+      <input type="text" id="text-width" placeholder="80">
       characters
-    </span>
+    </p>
+    <p>
+      <label>Text case</label>
+      <input type="radio" name="case" id="case-none" value="none" checked>
+      <label for="case-none" class="radio-label">Do not touch</label>
+      <input type="radio" name="case" id="case-upper" value="upper">
+      <label for="case-upper" class="radio-label">To upper</label>
+      <input type="radio" name="case" id="case-lower" value="lower">
+      <label for="case-lower" class="radio-label">To lower</label>
+    </p>
   </div>
   <div id="highlight">
     <h2>Highlights
@@ -35,23 +44,48 @@
           <input type="text"
             title="Regex pattern in Javascript"
             id="highlight-regex-0" id_format="highlight-regex-%d"
-            class="highlight-regex" placeholder="Regex pattern (e.g. [DARK])">
+            class="highlight-regex" placeholder="Regex pattern">
         </span>
         <span>
           <label for="highlight-fcolor-0" id_format="highlight-fcolor-%d">Foreground color</label>
           <input type="text"
             title="Foreground color in HTML color"
             id="highlight-fcolor-0" id_format="highlight-fcolor-%d"
-            class="highlight-fcolor" placeholder="Foreground (e.g. #ffffff)">
+            class="highlight-fcolor" placeholder="#ffffff">
         </span>
         <span>
           <label for="highlight-bcolor-0" id_format="highlight-bcolor-%d">Background color</label>
           <input type="text"
             title="Background color in HTML color"
             id="highlight-bcolor-0" id_format="highlight-bcolor-%d"
-            class="highlight-bcolor" placeholder="Background (e.g. #ff0000)">
+            class="highlight-bcolor" placeholder="#ff0000">
         </span>
+        <span class="highlight-num" title="the number of match"></span>
         <button class="fa fa-minus-circle highlight-del" title="Delete this highlight" style="display: none"></button>
+      </li>
+    </ul>
+  </div>
+  <div id="substitute">
+    <h2>Substitutes
+      <button class="fa fa-plus-circle substitute-add" title="Add new substitute"></button>
+    </h2>
+    <ul>
+      <li class="substitute-var">
+        <span>
+          <label for="substitute-regex-0" id_format="substitute-regex-%d">Regex pattern</label>
+          <input type="text"
+            title="Regex pattern in Javascript"
+            id="substitute-regex-0" id_format="substitute-regex-%d"
+            class="substitute-regex" placeholder="Regex pattern">
+        </span>
+        <span>
+          <label for="substitute-repl-0" id_format="substitute-repl-%d">Replacement pattern</label>
+          <input type="text"
+            title="Replacement pattern in Javascript"
+            id="substitute-repl-0" id_format="substitute-repl-%d"
+            class="substitute-repl" placeholder="Replacement pattern">
+        </span>
+        <button class="fa fa-minus-circle substitute-del" title="Delete this substitute" style="display: none"></button>
       </li>
     </ul>
   </div>
