@@ -258,7 +258,13 @@ $(function() {
     return this.fromJSON(json);
   };
   Config.prototype.toURL = function() {
-    return $.url('path') + '?json=' + encodeURIComponent(this.toJSON());
+    return [
+      $.url('protocol'),
+      '://',
+      $.url('hostname'),
+      $.url('path'),
+      '?json=' + encodeURIComponent(this.toJSON())
+    ].join('');
   }
   Config.prototype.toDownloadURL = function() {
     var data = new Blob([Config.toJSON(this)]);
