@@ -364,6 +364,9 @@ $(function() {
     area_var: '.substitution-var',
     btn_add: '.substitution-add',
     btn_del: '.substitution-del',
+    after_del: function() {
+      rehighlight.viewer.render();
+    }
   });
   $('#highlight ul').addInputArea({
     area_var: '.highlight-var',
@@ -376,6 +379,9 @@ $(function() {
       $('.highlight-bcolor', this).colorpicker({
         color: '#c0504d',
       });
+    },
+    after_del: function() {
+      rehighlight.viewer.render();
     }
   });
   $('.highlight-fcolor').colorpicker({
