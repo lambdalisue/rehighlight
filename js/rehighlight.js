@@ -233,6 +233,7 @@ $(function() {
       fontSize: config.fontSize,
       textWidth: config.textWidth,
       textCase: config.textCase,
+      matchBehavior: config.matchBehavior,
     };
     rawConfig.substitutions = new Array();
     config.substitutions.forEach(function(val, index, array) {
