@@ -50,13 +50,19 @@ input[type=radio] + label:before{
 input[type=radio]:checked + label:before{
   content: "\f192";
 }
+button {
+  border: none;
+  cursor: pointer;
+  font-size: large;
+  background: none;
+}
 
 #github-buttons iframe {
   margin: 0;
   padding: 0;
 }
 
-#text-width {
+#font-size, #text-width {
   text-align: right;
   width: 5em;
 }
@@ -65,13 +71,6 @@ input[type=radio]:checked + label:before{
 #substitution ul{
   list-style: none;
   padding: 0;
-}
-#highlight button,
-#substitution button{
-  border: none;
-  cursor: pointer;
-  font-size: large;
-  background: none;
 }
 .highlight-var,
 .substitution-var {
@@ -94,13 +93,13 @@ input[type=radio]:checked + label:before{
 .highlight-bcolor{
   width: 8em;
 }
-.substitution-num:after {
-  content: " match.";
-  word-wrap: nowrap;
+.substitution-num,
+.highlight-num {
+  white-space: nowrap;
 }
+.substitution-num:after,
 .highlight-num:after {
   content: " match.";
-  word-wrap: nowrap;
 }
 
 #textarea {
@@ -111,6 +110,7 @@ input[type=radio]:checked + label:before{
   border-radius: 3px;
   padding: 3px;
 }
+
 #viewer {
   background-color: #fff;
   width: 100%;
@@ -128,22 +128,40 @@ input[type=radio]:checked + label:before{
   display: block;
   resize: vertical;
   width: 100%;
-  height: 30%;
+  min-height: 20px;
   border: 1px solid #aaa;
   border-radius: 3px;
   padding: 3px;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.evo-colorind {
+  border: none;
+  height: 23px;
 }
 
 @media print {
   body {
     -webkit-print-color-adjust: exact;
   }
-  #fork-me-on-github, #textarea, #controller button {
+  #github-buttons,
+  #url-tools,
+  #properties,
+  #textarea,
+  #controller button,
+  footer {
     display: none;
   }
   #viewer {
-    font-size: small;
     border: none;
+    border-radius: 0;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    padding: 1em 0;
+    margin: auto;
+    width: auto;
+    height: auto;
     overflow: hidden;
   }
 }

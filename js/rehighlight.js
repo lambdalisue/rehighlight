@@ -21,7 +21,6 @@ $(function() {
       return text;
     }
     var regex = getRegExp('.{1,' + width + '}', 'g');
-    text = text.replace(/\r?\n/g, '');  // remove unwilling newlines
     text = text.match(regex).join('\n');
     return text;
   };
@@ -38,6 +37,9 @@ $(function() {
       return text;
     }
     var regex = getRegExp(pattern, 'g', behavior);
+    repl = repl.replace(/\\r/g, '\r');
+    repl = repl.replace(/\\n/g, '\n');
+    repl = repl.replace(/\\t/g, '\t');
     text = text.replace(regex, repl);
     return text;
   };
@@ -93,7 +95,8 @@ $(function() {
         return $('.highlight-fcolor', parent).val() || '#ffffff';
       },
       set: function(value) {
-        $('.highlight-fcolor', parent).val(value).css('color', value);
+        $('.highlight-fcolor', parent).val(value);
+        $('.highlight-fcolor', parent).colorpicker('val', value);
       }
     });
     Object.defineProperty(this, 'bcolor', {
@@ -101,7 +104,8 @@ $(function() {
         return $('.highlight-bcolor', parent).val() || '#c0504d';
       },
       set: function(value) {
-        $('.highlight-bcolor', parent).val(value).css('color', value);
+        $('.highlight-bcolor', parent).val(value);
+        $('.highlight-bcolor', parent).colorpicker('val', value);
       }
     });
     Object.defineProperty(this, 'num', {
@@ -115,9 +119,18 @@ $(function() {
   };
   var Config = function() {
     var self = this;
+    Object.defineProperty(this, 'fontSize', {
+      get: function() {
+        return $('#font-size').val() || 10;
+      },
+      set: function(value) {
+        $('#font-size').val(value);
+        $('#viewer').css('font-size', self.fontSize + 'pt');
+      }
+    });
     Object.defineProperty(this, 'textWidth', {
       get: function() {
-        return $('#text-width').val() || 50;
+        return $('#text-width').val() || 45;
       },
       set: function(value) {
         $('#text-width').val(value);
@@ -163,9 +176,11 @@ $(function() {
             btn.click();
           }
         }
+        var substitution;
         $('.substitution-var').each(function(index, element) {
-          $('.substitution-pattern', this).val(value[index].pattern);
-          $('.substitution-repl', this).val(value[index].repl);
+          substitution = new Substitution(this);
+          substitution.pattern = value[index].pattern;
+          substitution.repl = value[index].repl;
         });
       }
     });
@@ -193,11 +208,13 @@ $(function() {
             btn.click();
           }
         }
+        var highlight;
         $('.highlight-var').each(function(index, element) {
-          $('.highlight-pattern', this).val(value[index].pattern);
-          $('.highlight-fcolor', this).val(value[index].fcolor);
-          $('.highlight-bcolor', this).val(value[index].bcolor);
-          $('.highlight-num', this).val(value[index].num);
+          highlight = new Highlight(this);
+          highlight.pattern = value[index].pattern;
+          highlight.fcolor = value[index].fcolor;
+          highlight.bcolor = value[index].bcolor;
+          highlight.num = value[index].num;
         });
       }
     });
@@ -213,6 +230,7 @@ $(function() {
   Config.toJSON = function(config) {
     var rawConfig = {
       originalValue: config.originalValue,
+      fontSize: config.fontSize,
       textWidth: config.textWidth,
       textCase: config.textCase,
     };
@@ -272,6 +290,9 @@ $(function() {
   }
   Config.prototype.connect = function(callback) {
     var self = this;
+    $('#font-size').on('keypress keyup paste', function(){
+      self.fontSize = $('#font-size').val();
+    });
     $('#text-width').on('keypress keyup paste', callback);
     $('input[name=text-case]').on('change', callback);
     $('input[name=match-behavior]').on('change', callback);
@@ -346,13 +367,20 @@ $(function() {
     btn_add: '.highlight-add',
     btn_del: '.highlight-del',
     after_add: function() {
-      $('.highlight-fcolor', this).colorpicker({ hideButton: true });
-      $('.highlight-bcolor', this).colorpicker({ hideButton: true });
+      $('.highlight-fcolor', this).colorpicker({
+        color: '#ffffff',
+      });
+      $('.highlight-bcolor', this).colorpicker({
+        color: '#c0504d',
+      });
     }
   });
-  $('.highlight-fcolor').colorpicker({ hideButton: true });
-  $('.highlight-bcolor').colorpicker({ hideButton: true });
-
+  $('.highlight-fcolor').colorpicker({
+    color: '#ffffff',
+  });
+  $('.highlight-bcolor').colorpicker({
+    color: '#c0504d',
+  });
   window.rehighlight = rehighlight;
   if ($.url('?url')) {
     $.getJSON($.url('?url'), function(data) {

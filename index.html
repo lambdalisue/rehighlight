@@ -22,12 +22,26 @@
   </div>
 </header>
 
+<div id="url-tools">
+  <h2>URL
+    <button class="fa fa-download" onclick="javascript:download();" title="Show download URL"></button>
+    <button class="fa fa-share-square-o" onclick="javascript:openURL();" title="Show shareing URL"></button>
+  </h2>
+  <p>Click the icon above to show a corresponding URL to below.</p>
+  <a id="url-viewer" href=''></a>
+</div>
+
 <div id="controller">
   <div id="properties">
     <h2>Properties</h2>
     <p>
+      <label for="font-size">Font size</label>
+      <input type="text" id="font-size" placeholder="10">
+      pt
+    </p>
+    <p>
       <label for="text-width">Text width</label>
-      <input type="text" id="text-width" placeholder="80">
+      <input type="text" id="text-width" placeholder="45">
       characters
     </p>
     <p>
@@ -51,6 +65,7 @@
     <h2>Substitutions
       <button class="fa fa-plus-circle substitution-add" title="Add new substitution"></button>
     </h2>
+    <p><code>\r</code>, <code>\n</code> and <code>\t</code> in replacement pattern will be translated to corresponding special characters.</p>
     <ul>
       <li class="substitution-var">
         <span>
@@ -120,23 +135,7 @@
 <div id="wrapper">
   <textarea id="textarea" placeholder="Type your text here"></textarea>
   <pre id="viewer"></pre>
-
-  <h2>URLs</h2>
-  <button onclick="javascript:download();">Show Download JSON</button>
-  <button onclick="javascript:openURL();">Show URL for sharing</button>
-  <textarea id="url-viewer" readonly></textarea>
-  <script>
-    function download() {
-      var url = rehighlight.viewer.config.toDownloadURL();
-      $('#url-viewer').val(url);
-    }
-    function openURL() {
-      var url = rehighlight.viewer.config.toURL();
-      $('#url-viewer').val(url);
-    }
-  </script>
 </div>
-
 <footer>
   <p>&copy; 2015 hashnote.net, &Lambda;lisue
 </footer>
@@ -147,6 +146,16 @@
 <script src="https://cdn.rawgit.com/evoluteur/colorpicker/master/js/evol.colorpicker.min.js"></script>
 <script src="https://cdn.rawgit.com/lambdalisue/jquery.add-input-area/master/jquery.add-input-area.min.js"></script>
 <script src="js/rehighlight.js"></script>
+<script>
+  function download() {
+    var url = rehighlight.viewer.config.toDownloadURL();
+    $('#url-viewer').html(url).prop('href', url);
+  }
+  function openURL() {
+    var url = rehighlight.viewer.config.toURL();
+    $('#url-viewer').html(url).prop('href', url);
+  }
+</script>
 
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
 <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-52ca35eb4a386ae9" async="async"></script>
