@@ -24,11 +24,11 @@ $(function() {
     text = text.match(regex).join('\n');
     return text;
   };
-  var count = function(text, pattern) {
+  var count = function(text, pattern, behavior) {
     if (!text || text.length === 0) {
       return 0;
     }
-    var regex = getRegExp(pattern, 'g');
+    var regex = getRegExp(pattern, 'g', behavior);
     var match = text.match(regex);
     return match ? match.length : 0;
   };
@@ -339,7 +339,9 @@ $(function() {
     text = wrap(text, this.config.textWidth);
     // Highlight
     this.config.highlights.forEach(function(val, index, array) {
-      val.num = count(text, val.pattern);
+      val.num = count(
+        text, val.pattern,
+        self.config.matchBehavior);
       text = highlight(
         text, val.pattern, val.fcolor, val.bcolor,
         self.config.matchBehavior);
