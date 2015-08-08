@@ -2,11 +2,16 @@ $(function() {
   ////////////////////////////////////////////////////////////////////////////
   // Functions without side-effect
   ////////////////////////////////////////////////////////////////////////////
-  var getRegExp = function(pattern, flags) { 
+  var getRegExp = function(pattern, flags, behavior) { 
     flags = flags || '';
     try {
-      // do not match text in HTML tag.
-      return new RegExp(pattern + '(?![^<]*>)', flags);
+      if (behavior === 'keep') {
+        // do not match text in/inside HTML tag.
+        return new RegExp(pattern + '(?![^<]*>|[^<>]*<\/)', flags);
+      } else {
+        // do not match text inside HTML tag.
+        return new RegExp(pattern + '(?![^<]*>)', flags);
+      }
     } catch (e) {
       return new RegExp('', '');
     }
@@ -28,21 +33,21 @@ $(function() {
     var match = text.match(regex);
     return match ? match.length : 0;
   };
-  var substitute = function(text, pattern, repl) {
+  var substitute = function(text, pattern, repl, behavior) {
     if (!text || text.length === 0) {
       return text;
     }
-    var regex = getRegExp(pattern, 'g');
+    var regex = getRegExp(pattern, 'g', behavior);
     text = text.replace(regex, repl);
     return text;
   };
-  var highlight = function(text, pattern, fcolor, bcolor) {
+  var highlight = function(text, pattern, fcolor, bcolor, behavior) {
     var styles = [
       'color:' + fcolor + '!important;',
       'background-color:' + bcolor + '!important;',
     ];
     var repl = '<span style="' + styles.join('') + '">$&</span>';
-    return substitute(text, pattern, repl);
+    return substitute(text, pattern, repl, behavior);
   };
 
   ////////////////////////////////////////////////////////////////////////////
@@ -124,6 +129,14 @@ $(function() {
       },
       set: function(value) {
         $('input[name=text-case][value="' + value + '"]').prop('checked', true);
+      }
+    });
+    Object.defineProperty(this, 'matchBehavior', {
+      get: function() {
+        return $('input[name=match-behavior]:checked').val();
+      },
+      set: function(value) {
+        $('input[name=match-behavior][value="' + value + '"]').prop('checked', true);
       }
     });
     Object.defineProperty(this, 'substitutions', {
@@ -228,24 +241,34 @@ $(function() {
     }
     return config;
   };
-  Config.prototype.loadLocal = function(jsonConfig) {
-    var jsonConfig = localStorage.getItem('config');
-    if (!jsonConfig) {
+  Config.prototype.toJSON = function() {
+    return Config.toJSON(this);
+  };
+  Config.prototype.fromJSON = function(json) {
+    return Config.fromJSON(json, this);
+  };
+  Config.prototype.saveToLocalStorage = function() {
+    localStorage.setItem('config', this.toJSON());
+  };
+  Config.prototype.loadFromLocalStorage = function() {
+    var json = localStorage.getItem('config');
+    if (!json) {
       return this;
     }
-    return Config.fromJSON(jsonConfig, this);
+    return this.fromJSON(json);
   };
-  Config.prototype.saveLocal = function() {
-    localStorage.setItem('config', Config.toJSON(this));
-  };
-  Config.prototype.download = function() {
+  Config.prototype.toURL = function() {
+    return $.url('path') + '?json=' + encodeURIComponent(this.toJSON());
+  }
+  Config.prototype.toDownloadURL = function() {
     var data = new Blob([Config.toJSON(this)]);
-    window.location.assign(URL.createObjectURL(data));
+    return URL.createObjectURL(data);
   }
   Config.prototype.connect = function(callback) {
     var self = this;
     $('#text-width').on('keypress keyup paste', callback);
     $('input[name=text-case]').on('change', callback);
+    $('input[name=match-behavior]').on('change', callback);
     $('.substitution-pattern').on('keypress keyup paste', callback);
     $('.substitution-repl').on('keypress keyup paste', callback);
     $('.highlight-pattern').on('keypress keyup paste', callback);
@@ -253,7 +276,7 @@ $(function() {
     $('.highlight-bcolor').on('keypress keyup paste change.color', callback);
     $('#textarea').on('keypress keyup paste', callback);
     $(window).on('unload', function(){
-      self.saveLocal()
+      self.saveToLocalStorage();
     });
   };
 
@@ -269,6 +292,7 @@ $(function() {
     });
   };
   Viewer.prototype.render = function() {
+    var self = this;
     var text = this.config.originalValue;
     // Upper/Lower
     switch(this.config.textCase) {
@@ -289,7 +313,9 @@ $(function() {
     // Highlight
     this.config.highlights.forEach(function(val, index, array) {
       val.num = count(text, val.pattern);
-      text = highlight(text, val.pattern, val.fcolor, val.bcolor);
+      text = highlight(
+        text, val.pattern, val.fcolor, val.bcolor,
+        self.config.matchBehavior);
     });
     this.renderedValue = text;
   };
@@ -321,17 +347,18 @@ $(function() {
   $('.highlight-fcolor').colorpicker({ hideButton: true });
   $('.highlight-bcolor').colorpicker({ hideButton: true });
 
-  var jsonURL = $.url('?json');
-  if (jsonURL) {
-    window.rehighlight = rehighlight;
-    $.getJSON(jsonURL, function(data) {
-      rehighlight.viewer.config = Config.fromJSON(data, rehighlight.viewer.config);
+  window.rehighlight = rehighlight;
+  if ($.url('?url')) {
+    $.getJSON($.url('?url'), function(data) {
+      rehighlight.viewer.config.fromJSON(data);
       rehighlight.viewer.render();
     });
-  } else {
-    rehighlight.viewer.config.loadLocal();
+  } else if ($.url('?json')) {
+    rehighlight.viewer.config.fromJSON($.url('?json'));
     rehighlight.viewer.render();
-    window.rehighlight = rehighlight;
+  } else {
+    rehighlight.viewer.config.loadFromLocalStorage();
+    rehighlight.viewer.render();
   }
 });
 
