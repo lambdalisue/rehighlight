@@ -57,6 +57,11 @@ button {
   background: none;
 }
 
+header h1 a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 #github-buttons iframe {
   margin: 0;
   padding: 0;
