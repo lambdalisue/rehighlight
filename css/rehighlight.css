@@ -112,9 +112,10 @@ button {
 }
 
 #viewer {
+  display: block;
   background-color: #fff;
   width: 100%;
-  min-height: 500px;
+  min-height: 3em;
   border: 1px solid #aaa;
   border-radius: 3px;
   padding: 3px;
